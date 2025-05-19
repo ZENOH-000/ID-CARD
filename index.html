@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kartu Identitas</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+  body {
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .id-card {
+    background: white;
+    width: 320px;
+    border-radius: 16px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.18);
+    overflow: hidden;
+    color: #333;
+    text-align: center;
+    padding: 24px 20px;
+  }
+  .id-card .photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid #667eea;
+    margin: 0 auto 16px;
+    transition: transform 0.3s ease;
+  }
+  .id-card .photo:hover {
+    transform: scale(1.1);
+  }
+  .id-card h1 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .id-card h2 {
+    font-weight: 400;
+    font-size: 1rem;
+    margin: 0 0 12px;
+    color: #666;
+  }
+  .id-card p {
+    font-size: 0.94rem;
+    line-height: 1.4;
+    margin: 0 0 16px;
+    color: #555;
+  }
+  .id-card .company {
+    font-weight: 600;
+    color: #667eea;
+    margin-bottom: 20px;
+  }
+  button {
+    background: #667eea;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 30px;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(102,126,234,0.5);
+    transition: background-color 0.3s ease;
+  }
+  button:hover {
+    background: #5563c1;
+  }
+  .extra-info {
+    margin-top: 20px;
+    display: none;
+  }
+  .extra-info.visible {
+    display: block;
+  }
+  .qr-code {
+    margin-top: 12px;
+    width: 120px;
+    height: 120px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  #description{
+    text-align: start;
+    padding-left: 28px;
+  }
+</style>
+</head>
+<body>
+  <div class="id-card" role="region" aria-label="Kartu identitas">
+    <img
+      src="saya.jpg"
+      alt="Foto Profil"
+      class="photo"
+      id="profilePhoto"
+      title="Klik untuk ganti foto"
+      tabindex="0"
+    />
+    <h1 id="fullName">Hegar Agung Nugroho</h1>
+    <h2 id="position">Pelajar</h2>
+    <div class="company" id="companyName">SMK NEGERI 2 PEKALONGAN</div>
+    <p id="description">
+      Tanggal Lahir : 28 Maret 2009<br>
+      Agama : Islam<br>
+      Jenis Kelamin : Laki-laki<br>
+      Jurusan : Rekayasa Perangkat Lunak
+    </p>
+    <button id="toggleExtraBtn" aria-expanded="false" aria-controls="extraInfo">Tampilkan QR Code</button>
+
+    <div class="extra-info" id="extraInfo" aria-live="polite" aria-atomic="true">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data=TAPI%20BOONG!!!%20
+         %20&size=120x120" alt="QR Code identitas" class="qr-code" />
+      <p>Scan QR Code untuk informasi lebih lanjut.</p>
+    </div>
+  </div>
+
+  <script>
+    const profilePhoto = document.getElementById('profilePhoto');
+    profilePhoto.addEventListener('click', () => {
+      const newUrl = prompt('Masukkan URL foto profil baru:');
+      if (newUrl) {
+        if (/\.(jpe?g|png|gif|svg|webp)$/i.test(newUrl.trim())) {
+          profilePhoto.src = newUrl.trim();
+        } else {
+          alert('URL tidak valid. Pastikan itu adalah tautan gambar.');
+        }
+      }
+    });
+    profilePhoto.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        profilePhoto.click();
+      }
+    });
+
+    const toggleExtraBtn = document.getElementById('toggleExtraBtn');
+    const extraInfo = document.getElementById('extraInfo');
+
+    toggleExtraBtn.addEventListener('click', () => {
+      const isVisible = extraInfo.classList.toggle('visible');
+      toggleExtraBtn.textContent = isVisible ? 'Sembunyikan QR Code' : 'Tampilkan QR Code';
+      toggleExtraBtn.setAttribute('aria-expanded', isVisible);
+    });
+  </script>
+</body>
+</html>
